@@ -12,6 +12,8 @@
     "babel-loader": "^9.2.1",
     "express": "^4.21.1",
     "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "raw-loader": "^4.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
@@ -24,11 +26,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack --config webpack.client.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build:server": "webpack --config webpack.server.js",
-    "build:client": "yarn build",
+    "build:client": "webpack --config webpack.client.js",
     "start:server": "yarn build:client && yarn build:server && node buildserver/server.js"
   },
   "eslintConfig": {
