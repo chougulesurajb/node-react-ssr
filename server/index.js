@@ -1,11 +1,14 @@
 const express = require("express");
 const React = require("react");
 const ReactDOMServer = require("react-dom/server");
+const path = require("path");
+const fs = require("fs");
+
 const App = require("../src/App").default;
 const AppServer = require("../src/AppServer").default;
-const path = require("path");
+
 const app = express();
-const fs = require("fs");
+
 const PORT = process.env.PORT || 3001;
 const rootRouter = express.Router();
 
@@ -13,7 +16,15 @@ rootRouter.get("/", (req, res, next) => {
   res.sendFile(path.resolve(__dirname, "../build", "index.html"));
 });
 
-rootRouter.get("/react", async (req, res, next) => {
+rootRouter.get("/about", (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "../about", "dist", "index.html"));
+});
+
+rootRouter.get("/dashboard", (req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "../dashboard", "dist", "index.html"));
+});
+
+rootRouter.get("/ ", async (req, res, next) => {
   const content = ReactDOMServer.renderToString(<App />);
   await fs.readFile(
     path.resolve(__dirname, "../build", "index.html"),
@@ -51,17 +62,8 @@ rootRouter.get("/react-ssr", async (req, res, next) => {
 
 app.use(express.static(path.resolve(__dirname, "../buildserver")));
 app.use(express.static(path.resolve(__dirname, "../build")));
-
-app.use((req, res, next) => {
-  if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
-    next();
-  }
-  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-  res.header("Expires", "-1");
-  res.header("Pragma", "no-cache");
-  next();
-});
-
+app.use(express.static(path.resolve(__dirname, "../about/dist")));
+app.use(express.static(path.resolve(__dirname, "../dashboard/dist")));
 app.use(rootRouter);
 
 app.listen(PORT, () => {

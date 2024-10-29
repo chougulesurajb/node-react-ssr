@@ -3,7 +3,7 @@ import "./App.css";
 
 const AppServer = () => {
   const [show, setShow] = useState(false);
-
+  console.log("===", show);
   return (
     <div className="wrapper">
       <div className="sidebar">

@@ -31,7 +31,7 @@
     "eject": "react-scripts eject",
     "build:server": "webpack --config webpack.server.js",
     "build:client": "webpack --config webpack.client.js",
-    "start:server": "yarn build:client && yarn build:server && node buildserver/server.js"
+    "start:server": "yarn build:client && yarn build:server && NODE_ENV=development node buildserver/server.js"
   },
   "eslintConfig": {
     "extends": [
